@@ -24,9 +24,9 @@ class RouterManager(ManagerWeb):
         password = driver.find_element(By.ID, "pc-login-password")
         password.send_keys("admin", Keys.ENTER)
         try:
-            print("Forçando login")
             alert = driver.find_element(By.ID, "alert-container")
             alert.find_element(By.ID, "confirm-yes").click()
+            print("Forçando login")
 
         except:
             pass

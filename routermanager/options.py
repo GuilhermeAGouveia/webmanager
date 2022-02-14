@@ -1,6 +1,6 @@
 import os
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -29,7 +29,8 @@ class Security(OptionsElement):
 
     def navigate(self, option):
         option = self.options[option.value]
-        click = WebDriverWait(option, time_out).until(lambda p: p.find_element(By.TAG_NAME, "a"))
+        # click = WebDriverWait(option, time_out).until(lambda p: p.find_element(By.TAG_NAME, "a"))
+        click = option.find_element(By.TAG_NAME, "a")
         self.driver.execute_script("arguments[0].click();", click)
 
     def accessControl(self):
@@ -40,15 +41,22 @@ class Security(OptionsElement):
 class AccessControll:
     def __init__(self, driver):
         self.driver = driver
+
     def active(self, active=False):
-        container = WebDriverWait(self.driver, time_out).until(lambda p: p.find_element(By.CLASS_NAME, "content-container"))
+        container = WebDriverWait(self.driver, time_out).until(
+            lambda p: p.find_element(By.CLASS_NAME, "content-container"))
+
+        def getState(buttonContainer):
+            buttonState = buttonContainer.get_property('className').split()
+            buttonState = True if buttonState[2] == 'on' else False
+            return buttonState
+
         buttonContainer = container.find_element(By.TAG_NAME, "div")
-        buttonState = buttonContainer.get_property('className').split()
-        buttonState = True if buttonState[2] == 'on' else False
-        buttonClick = buttonContainer.find_element(By.CLASS_NAME, "button-group-wrap")
-        if not (active == buttonState):
+        buttonClick = buttonContainer.find_element(By.CLASS_NAME, "button-group-cover")
+        if not (active == getState(buttonContainer)):
             print("Block active" if active else "Block disable")
-            buttonClick.click()
+            self.driver.execute_script("arguments[0].click();", buttonClick)
+
         else:
             print("Block option already")
 
