@@ -1,6 +1,10 @@
 from routermanager.enumR import AdvancedOptions
 from routermanager.options import *
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+time_out = int(os.getenv("TIME_OUT"))
 
 class Mode(OptionsElement):
 

@@ -1,24 +1,27 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from dotenv import load_dotenv
 from routermanager.enumR import ModeEnum
 from routermanager.main import RouterManager
 import sys
+import os
 
+load_dotenv()
+
+gw_addr = os.getenv("GATEWAY_ADDRESS")
 
 def blockMotherPhone(active):
-    rm = RouterManager(url="http://192.168.0.1")
+    rm = RouterManager(url=f"http://{gw_addr}")
     rm.login()
     advanced = rm.alterMode(ModeEnum.ADVANCED)
     security = advanced.security()
-    security.listOptions()
-    security.accessControl(active)
+    access_control = security.accessControl()
+    access_control.active(active)
     rm.close()
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    blockMotherPhone(bool(sys.argv[0]))
+    try:
+        blockMotherPhone(True if sys.argv[1].lower() == '-a' else False)
+    except IndexError:
+        raise Exception("Expected argument: active")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

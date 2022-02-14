@@ -1,11 +1,14 @@
-import selenium
+from dotenv import load_dotenv
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.keys import Keys
+import os
 
 from routermanager.enumR import ModeEnum
 from manager import ManagerWeb
 from routermanager.mode import *
 
+load_dotenv()
+time_out = int(os.getenv("TIME_OUT"))
 
 class RouterManager(ManagerWeb):
     def __init__(self, url):
@@ -35,7 +38,7 @@ class RouterManager(ManagerWeb):
         assert self.state["login"]
         driver = self.driver
         if mode == ModeEnum.ADVANCED:
-            mode = WebDriverWait(driver, 10).until(lambda p: p.find_element(By.ID, ModeEnum.ADVANCED.value))
+            mode = WebDriverWait(driver, time_out).until(lambda p: p.find_element(By.ID, ModeEnum.ADVANCED.value))
             mode.click()
             return AdvancedMode(driver=self.driver)
         elif mode == ModeEnum.BASIC:
