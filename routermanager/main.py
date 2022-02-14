@@ -9,6 +9,7 @@ from routermanager.mode import *
 
 load_dotenv()
 time_out = int(os.getenv("TIME_OUT"))
+passwd = os.getenv("PASSWORD")
 
 class RouterManager(ManagerWeb):
     def __init__(self, url):
@@ -22,7 +23,7 @@ class RouterManager(ManagerWeb):
         driver = self.driver
         driver.get(self.url)
         password = driver.find_element(By.ID, "pc-login-password")
-        password.send_keys("admin", Keys.ENTER)
+        password.send_keys(passwd, Keys.ENTER)
         try:
             alert = driver.find_element(By.ID, "alert-container")
             alert.find_element(By.ID, "confirm-yes").click()
