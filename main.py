@@ -1,3 +1,5 @@
+import warnings
+
 from dotenv import load_dotenv
 from routermanager.enumR import ModeEnum
 from routermanager.main import RouterManager
@@ -22,6 +24,7 @@ if __name__ == '__main__':
     try:
         blockMotherPhone(True if sys.argv[1].lower() == '-a' else False)
     except IndexError:
-        raise Exception("Expected argument: active")
+        warnings.warn("\033[93m [WARNING] A flag -a or -f não foi indicada, na ausência, -f sera considerado! \033[0m")
+        blockMotherPhone(False)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
