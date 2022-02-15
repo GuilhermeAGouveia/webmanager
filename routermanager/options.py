@@ -41,6 +41,7 @@ class Security(OptionsElement):
 class AccessControll:
     def __init__(self, driver):
         self.driver = driver
+        self.blackList = self.getBlackList()
 
     def active(self, active=False):
         container = WebDriverWait(self.driver, time_out).until(
@@ -61,3 +62,19 @@ class AccessControll:
             print("Block option already")
 
         return True
+
+    def getBlackList(self):
+        bodyTable = WebDriverWait(self.driver, time_out).until(
+            lambda p: p.find_element(By.ID, "bodyDevicesInBlackList"))
+        listTr = bodyTable.find_elements(By.TAG_NAME, "tr")[1:]
+        listDevices = []
+        for elem in listTr:
+            elem = elem.find_elements(By.TAG_NAME, "td")[1:]
+            arrayDict = {
+                "id": int(elem[0].get_property("innerText")),
+                "name": elem[1].get_property("innerText"),
+                "mac": elem[2].get_property("innerText"),
+                "actions": elem[3].find_elements(By.TAG_NAME, "span")
+            }
+            listDevices.append(arrayDict)
+        return listDevices
