@@ -46,14 +46,21 @@ def blockMotherPhoneTimer(finalState: str = "-f", n_interations: int = 10) -> No
     for i in range(0, n_interations):
         print(f"Block sequence {i}:")
         toggle = not toggle
-        access_control.active(toggle)
-        time_wait = random.randrange(3, 6)
+        access_control.block(toggle)
+        """
+        O router parece levar mais tempo para bloquear conexão do que para desbloquear,
+        a condicional abaixo serve para tratar isso, após o desbloqueio, o tempo para bloquear é menor
+        """
+        if toggle:
+            time_wait = random.randrange(6, 10) #Depois de bloquear, leva de 6 a 10 segundos para desbloquear
+        else:
+            time_wait = random.randrange(2, 4) #Depois de desbloquear, leva de 2 a 4 segundos para bloquear
         time.sleep(time_wait)
 
     if finalState == "-a":
-        access_control.active(True)
+        access_control.block(True)
     else:
-        access_control.active(False)
+        access_control.block(False)
 
     rm.close()
 

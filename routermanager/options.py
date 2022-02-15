@@ -43,7 +43,7 @@ class AccessControll:
         self.driver = driver
         self.blackList = self.getBlackList()
 
-    def active(self, active=False):
+    def block(self, active=False):
         container = WebDriverWait(self.driver, time_out).until(
             lambda p: p.find_element(By.CLASS_NAME, "content-container"))
 
