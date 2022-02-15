@@ -26,7 +26,6 @@ Para o functionamento sem alterações em código, é necessário que você tenh
 ```md
  sudo make up
 ```
-### 4. pip
 
 
 
