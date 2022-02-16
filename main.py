@@ -24,7 +24,7 @@ def blockMotherPhone(active):
     advanced = rm.alterMode(ModeEnum.ADVANCED)
     security = advanced.security()
     access_control = security.accessControl()
-    access_control.active(active)
+    access_control.block(active)
     rm.close()
 
 
