@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
+import os
 
 load_dotenv()
 path = os.getenv("WEBDRIVER_PATH")
